@@ -1,5 +1,5 @@
 {
-  "name": "better-fetch",
+  "name": "@sheikonh/better-fetch",
   "version": "0.0.1",
   "description": "A utility package which provides a handler for the \"fetch\" JavaScript native function",
   "main": "src/index.ts",
@@ -31,5 +31,9 @@
     "jest-fetch-mock": "^3.0.3",
     "ts-jest": "^29.0.5",
     "typescript": "^4.9.5"
-  }
+  },
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {}
 }
