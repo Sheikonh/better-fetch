@@ -1,4 +1,4 @@
-import { StringMap } from "./Types";
+import { GetResponse, StringMap } from "./Types";
 import Utils from "./Utils";
 
 export default class Fetch {
@@ -24,9 +24,9 @@ export default class Fetch {
      * @param headers The request headers
      * @returns The API response cast to the Type provided
      */
-    public async get<T>(apiPath: string, query?: StringMap, headers?: HeadersInit): Promise<T> {
+    public async get<T>(apiPath: string, query?: StringMap, headers?: HeadersInit): Promise<GetResponse<T | undefined>> {
         // variables
-        let result: T;
+        let result: GetResponse<T | undefined>;
 
         try {
             const uri = Utils.buildUri(this._baseUrl, apiPath, query);
@@ -36,10 +36,17 @@ export default class Fetch {
                 credentials: this._credentials
             });
 
-            result = await response.json() as T;
-        } catch (ex) {
+            result = {
+                code: response.status,
+                result: await response.json() as T
+            }
+        } catch (ex: any) {
             console.error(ex);
-            throw ex;
+
+            result = {
+                code: ex.status,
+                result: undefined
+            }
         }
 
         return result;
